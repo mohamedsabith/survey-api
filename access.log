@@ -1,7 +1,0 @@
-::1 - - [17/Sep/2022:16:53:44 +0000] "POST /api/v1/signup HTTP/1.1" 400 55 "-" "PostmanRuntime/7.29.2"
-::1 - - [17/Sep/2022:16:58:03 +0000] "POST /api/v1/signup HTTP/1.1" 400 63 "-" "PostmanRuntime/7.29.2"
-::1 - - [17/Sep/2022:16:58:30 +0000] "POST /api/v1/signup HTTP/1.1" 200 341 "-" "PostmanRuntime/7.29.2"
-::1 - - [17/Sep/2022:17:00:19 +0000] "POST /api/v1/signup HTTP/1.1" 200 127 "-" "PostmanRuntime/7.29.2"
-::1 - - [17/Sep/2022:17:01:09 +0000] "POST /api/v1/signin HTTP/1.1" 400 50 "-" "PostmanRuntime/7.29.2"
-::1 - - [17/Sep/2022:17:01:40 +0000] "POST /api/v1/signin HTTP/1.1" 200 369 "-" "PostmanRuntime/7.29.2"
-::1 - - [17/Sep/2022:17:45:20 +0000] "POST /api/v1/signup HTTP/1.1" 200 571 "-" "PostmanRuntime/7.29.2"
