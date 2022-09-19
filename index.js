@@ -8,12 +8,15 @@ import logger from "morgan";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import compression from "compression";
-import mongoose from "mongoose";
 import "dotenv/config";
+import dbConnection from "./config/connection.js";
+import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
 // Routes
 import Routes from "./routes/routes.js";
+
+// Database Connection
+dbConnection();
 
 const app = express();
 
@@ -32,8 +35,9 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use(helmet());
-app.use(compression());
 app.use(limiter);
+app.use(errorHandler);
+app.use(notFound);
 
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "access.log"),
@@ -46,6 +50,8 @@ app.use(logger("combined", { stream: accessLogStream }));
 
 app.get("/", (req, res) => res.send("API IS WORKING"));
 app.use("/api/v1/", Routes);
+
+// Invalid Route
 app.all("*", (req, res) => {
   res.status(404).json({
     status: "false",
@@ -53,15 +59,9 @@ app.all("*", (req, res) => {
   });
 });
 
-const { PORT, CONNECTION_URL } = process.env;
+const { PORT } = process.env;
 
-mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() =>
-    app.listen(PORT, () =>
-      console.log(
-        chalk.blue(`Server Running on Port: http://localhost:${PORT}`)
-      )
-    )
-  )
-  .catch((error) => console.log(chalk.red(`${error} did not connect`)));
+app.listen(PORT, (err) => {
+  if (err) console.log(chalk.red(`Server failed to start Error : ${err}`));
+  console.log(chalk.blue(`Server started at port : ${PORT}`));
+});
