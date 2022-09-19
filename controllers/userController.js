@@ -12,6 +12,8 @@ import {
 } from "../validator/authValidator.js";
 import { Encrypt } from "../utils/crypto.js";
 import userModel from "../models/userModel.js";
+import surveyModel from "../models/surveyModel.js";
+import questionModel from "../models/questionModel.js";
 
 // USER SIGNUP
 const signUp = async (req, res) => {
@@ -275,4 +277,31 @@ const ResetPassword = async (req, res) => {
   }
 };
 
-export { signUp, signIn, ForgotPassword, ResetPassword };
+const getAllSurveys = async (req, res) => {
+  try {
+    const surveys = await surveyModel.find();
+    res.status(200).json(surveys);
+  } catch (error) {
+    console.log(chalk.red(error));
+    return res.status(404).json(error);
+  }
+};
+
+const getAllQuestions = async (req, res) => {
+  try {
+    const questions = await questionModel.find();
+    res.status(200).json(questions);
+  } catch (error) {
+    console.log(chalk.red(error));
+    return res.status(404).json(error);
+  }
+};
+
+export {
+  signUp,
+  signIn,
+  ForgotPassword,
+  ResetPassword,
+  getAllSurveys,
+  getAllQuestions,
+};

@@ -10,7 +10,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 import dbConnection from "./config/connection.js";
-import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
+import errorHandler from "./middlewares/errorMiddleware.js";
 
 // Routes
 import Routes from "./routes/routes.js";
@@ -37,7 +37,6 @@ app.use(cors());
 app.use(helmet());
 app.use(limiter);
 app.use(errorHandler);
-app.use(notFound);
 
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "access.log"),

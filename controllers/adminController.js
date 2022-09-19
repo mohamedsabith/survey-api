@@ -29,7 +29,7 @@ const adminLogin = async (req, res) => {
           "Your password was incorrect. Please double-check your password.",
       });
     const token = await Jwt.sign(
-      { username: admin.username, id: admin._id },
+      { username: admin.email, id: admin._id },
       process.env.JWT_ADMIN_SECRET_KEY,
       { expiresIn: "30d" }
     );
@@ -37,7 +37,7 @@ const adminLogin = async (req, res) => {
       status: "ok",
       msg: "Login success.",
       token,
-      username: admin.username,
+      username: admin.email,
     });
   } catch (error) {
     console.log(chalk.red(error));
@@ -50,6 +50,12 @@ const createSurvey = async (req, res) => {
   try {
     const { survey } = req.body;
 
+    if (!survey) {
+      return res.status(400).json({
+        status: false,
+        error: "Fields should be required.",
+      });
+    }
     // checking survey already exist
     const surveyExist = await surveyModel.findOne({ survey });
 
@@ -85,7 +91,15 @@ const createSurvey = async (req, res) => {
 // CREATE NEW QUESTIONS AND OPTIONS
 const createQuestions = async (req, res) => {
   try {
+    console.log(req.body);
     const { question, option1, option2, option3, option4, survey } = req.body;
+
+    if (!question || !option1 || !option2 || !option3 || !option4 || !survey) {
+      return res.status(400).json({
+        status: false,
+        error: "Fields should be required.",
+      });
+    }
 
     // checking question exist
     const Question = await questionModel.findOne({ question });
@@ -109,7 +123,7 @@ const createQuestions = async (req, res) => {
     const options = [option1, option2, option3, option4];
 
     // saving to DB
-    const newQuestion = new surveyModel({
+    const newQuestion = new questionModel({
       question: question,
       options: options,
       survey: Survey._id,

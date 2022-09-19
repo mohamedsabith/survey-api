@@ -1,10 +1,3 @@
-// NOT FOUND ERROR
-const notFound = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl} The requested URL`);
-  res.status(404);
-  next(error);
-};
-
 // ERROR HANDLER
 const errorHandler = (error, req, res, next) => {
   console.log(error);
@@ -18,4 +11,4 @@ const errorHandler = (error, req, res, next) => {
   });
 };
 
-export { errorHandler, notFound };
+export default errorHandler;

@@ -11,6 +11,7 @@ const questionSchema = new mongoose.Schema(
       default: [],
     },
     survey: {
+      required: true,
       type: mongoose.Types.ObjectId,
       ref: "Survey",
     },

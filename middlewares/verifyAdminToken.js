@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
-import { Decrypt } from "../utils/crypto";
 
-const verifyLogin = async (req, res, next) => {
-  const token = req.header("authtoken");
+const verifyAdminToken = async (req, res, next) => {
+  const token = req.header("admintoken");
 
   if (!token) {
     return res.status(401).json({
@@ -12,9 +11,8 @@ const verifyLogin = async (req, res, next) => {
   }
 
   try {
-    const decryptToken = await Decrypt(token);
-    const verify = jwt.verify(decryptToken, process.env.ACCESS_JWT_TOKEN);
-    req.user = verify;
+    const verify = jwt.verify(token, process.env.JWT_ADMIN_SECRET_KEY);
+    req.admin = verify;
     next();
   } catch (error) {
     res.status(400).json({
@@ -24,4 +22,4 @@ const verifyLogin = async (req, res, next) => {
   }
 };
 
-export default verifyLogin;
+export default verifyAdminToken;

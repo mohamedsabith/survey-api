@@ -1,9 +1,8 @@
-/* eslint-disable no-param-reassign */
 import Crypto from "crypto";
 
 const { SECRET_KEY, SECRET_IV } = process.env;
 
-const encryptionMethod = "aes-256-gcm";
+const encryptionMethod = "aes-256-cbc";
 const KEY = Crypto.createHash("sha512")
   .update(SECRET_KEY, "utf-8")
   .digest("hex")
@@ -14,19 +13,15 @@ const IV = Crypto.createHash("sha512")
   .substring(0, 16);
 
 const Encrypt = (text) => {
-  const encryptor = Crypto.createCipheriv(encryptionMethod, KEY, IV);
-  const Encrypted =
-    encryptor.update(text, "utf8", "base64") + encryptor.final("base64");
-  return Buffer.from(Encrypted).toString("base64");
+  const cipher = Crypto.createCipheriv(encryptionMethod, KEY, IV);
+  return `${cipher.update(text, "utf-8", "hex")}${cipher.final("hex")}`;
 };
 
 const Decrypt = (encryptedData) => {
-  const buff = Buffer.from(encryptedData, "base64");
-  encryptedData = buff.toString("utf-8");
-  const decryptor = Crypto.createDecipheriv(encryptionMethod, KEY, IV);
-  return (
-    decryptor.update(encryptedData, "base64", "utf8") + decryptor.final("utf8")
-  );
+  const decipher = Crypto.createDecipheriv(encryptionMethod, KEY, IV);
+  return `${decipher.update(encryptedData, "hex", "utf-8")}${decipher.final(
+    "utf-8"
+  )}`;
 };
 
 export { Encrypt, Decrypt };
