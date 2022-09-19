@@ -71,12 +71,11 @@ const signUp = async (req, res) => {
           status: "Ok",
         },
         process.env.ACCESS_JWT_TOKEN,
-        { expiresIn: "1d" },
-        console.log(chalk.green("Register Successfully"))
+        { expiresIn: "1d" }
       );
 
       const encryptToken = await Encrypt(token);
-
+      console.log(chalk.green("Register Successfully"));
       return res.status(200).json({
         status: true,
         message: "Register Successfully",

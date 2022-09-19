@@ -10,6 +10,10 @@ const questionSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    survey: {
+      type: mongoose.Types.ObjectId,
+      ref: "Survey",
+    },
   },
   {
     toJSON: {
