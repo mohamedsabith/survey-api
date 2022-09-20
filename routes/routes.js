@@ -7,6 +7,7 @@ import {
   ResetPassword,
   getAllQuestions,
   getAllSurveys,
+  selectedSurveyQuestions,
 } from "../controllers/userController.js";
 import {
   adminLogin,
@@ -25,6 +26,7 @@ router.post("/forgotPassword", ForgotPassword);
 router.post("/resetPassword", ResetPassword);
 router.get("/getSurveys", verifyUserToken, getAllSurveys);
 router.get("/getQuestions", verifyUserToken, getAllQuestions);
+router.get("/surveyQuestions", verifyUserToken, selectedSurveyQuestions);
 
 // admin routes
 router.post("/admin/signin", adminLogin);

@@ -297,6 +297,17 @@ const getAllQuestions = async (req, res) => {
   }
 };
 
+const selectedSurveyQuestions = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const Questions = await questionModel.find({ survey: id });
+    res.status(200).json(Questions);
+  } catch (error) {
+    console.log(chalk.red(error));
+    return res.status(404).json(error);
+  }
+};
+
 export {
   signUp,
   signIn,
@@ -304,4 +315,5 @@ export {
   ResetPassword,
   getAllSurveys,
   getAllQuestions,
+  selectedSurveyQuestions,
 };
