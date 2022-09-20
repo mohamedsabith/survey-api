@@ -308,6 +308,23 @@ const selectedSurveyQuestions = async (req, res) => {
   }
 };
 
+const submitSurvey = async (req, res) => {
+  try {
+    const { surveyId, userId } = req.body;
+    await userModel.findByIdAndUpdate(
+      { _id: userId },
+      { $inc: { wallet: 10 } }
+    );
+    await surveyModel.findByIdAndUpdate(
+      { _id: surveyId },
+      { $push: { completedUsers: userId } }
+    );
+  } catch (error) {
+    console.log(chalk.red(error));
+    return res.status(404).json(error);
+  }
+};
+
 export {
   signUp,
   signIn,
@@ -316,4 +333,5 @@ export {
   getAllSurveys,
   getAllQuestions,
   selectedSurveyQuestions,
+  submitSurvey,
 };

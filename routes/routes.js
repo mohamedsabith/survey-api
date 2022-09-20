@@ -8,6 +8,7 @@ import {
   getAllQuestions,
   getAllSurveys,
   selectedSurveyQuestions,
+  submitSurvey,
 } from "../controllers/userController.js";
 import {
   adminLogin,
@@ -27,6 +28,7 @@ router.post("/resetPassword", ResetPassword);
 router.get("/getSurveys", verifyUserToken, getAllSurveys);
 router.get("/getQuestions", verifyUserToken, getAllQuestions);
 router.get("/surveyQuestions", verifyUserToken, selectedSurveyQuestions);
+router.post("/submitSurvey", verifyUserToken, submitSurvey);
 
 // admin routes
 router.post("/admin/signin", adminLogin);
